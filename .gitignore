@@ -10,4 +10,4 @@ frontend/node_modules/
 backend/venv/
 *.log
 .idea/
-.vscode/
+.vscode/backend/venv/
