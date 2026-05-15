@@ -343,13 +343,23 @@ Recommended deployment:
 
 # Screenshots
 
-Add dashboard screenshots here.
+## Workspace Overview
 
-Example:
+![Quantitative Research Workspace](./assets/Quantitative%20Research%20Workspace.png)
 
-```md
-![Dashboard](./screenshots/dashboard.png)
-```
+## Product Gallery
+
+| Dashboard                            | Strategy Explorer                                      |
+| ------------------------------------ | ------------------------------------------------------ |
+| ![Dashboard](./assets/Dashboard.png) | ![Strategy Explorer](./assets/Strategy%20Explorer.png) |
+
+| Market View                              | Portfolio                            |
+| ---------------------------------------- | ------------------------------------ |
+| ![Market View](./assets/Market_View.png) | ![Portfolio](./assets/Portfolio.png) |
+
+| Alpha Lab                           |
+| ----------------------------------- |
+| ![Alpha Lab](./assets/AlphaLab.png) |
 
 ---
 
