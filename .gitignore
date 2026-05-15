@@ -6,3 +6,8 @@ __pycache__/
 .env
 .DS_Store
 coverage/
+frontend/node_modules/
+backend/venv/
+*.log
+.idea/
+.vscode/
