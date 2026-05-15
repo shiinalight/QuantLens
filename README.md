@@ -4,7 +4,7 @@ QuantLens is a quantitative finance analytics platform built with Python, FastAP
 
 ## Workspace Overview
 
-![Quantitative Research Workspace](./assets/Quantitative%20Research%20Workspace.png)
+![Dashboard](./assets/Dashboard.png)
 
 ## Product Gallery
 
