@@ -2,6 +2,10 @@
 
 QuantLens is a quantitative finance analytics platform built with Python, FastAPI, React, and Vite for exploring market data, analyzing portfolio risk, testing trading strategies, and visualizing quantitative metrics through a modern interactive dashboard.
 
+## Live Deployment
+
+Open QuantLens: [https://quant-lens-five.vercel.app](https://quant-lens-five.vercel.app)
+
 ## Dashboard Overview
 
 ![Dashboard](./assets/Dashboard.png)
