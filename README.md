@@ -311,24 +311,6 @@ http://localhost:5173
 
 ---
 
-# Deployment
-
-## Frontend
-
-Recommended deployment:
-
-- Vercel
-
-## Backend
-
-Recommended deployment:
-
-- Railway
-- Render
-- Fly.io
-
----
-
 # Future Improvements
 
 - Monte Carlo simulations
@@ -345,19 +327,38 @@ Recommended deployment:
 
 # Tech Stack
 
-## Backend
-
-- Python
-- FastAPI
-- Pandas
-- NumPy
-
 ## Frontend
 
 - React
 - Vite
 - JavaScript
 - CSS
+- Recharts
+- Lucide React
+
+## Backend
+
+- Python 3.11
+- FastAPI
+- Uvicorn
+- Pandas
+- NumPy
+- yfinance
+
+## Quantitative Finance
+
+- Portfolio analytics
+- Risk modeling
+- CAPM factor modeling
+- Strategy backtesting
+- Value at Risk / Conditional VaR
+- Drawdown and volatility analysis
+
+## Deployment
+
+- Vercel for frontend hosting
+- Render for FastAPI backend hosting
+- GitHub for version control and deployment workflow
 
 ---
 
