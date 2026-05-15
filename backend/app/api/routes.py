@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from app.quant_engine.demo_data import build_demo_payload
 from app.quant_engine.backtester import run_backtest
@@ -12,7 +12,10 @@ from app.quant_engine.strategies import (
 )
 from app.quant_engine.market_overview import build_market_overview
 from app.quant_engine.portfolio import build_equal_weight_portfolio, build_optimized_portfolio
-
+from app.quant_engine.analytics import build_quant_analytics_payload
+from app.quant_engine.optimizer_service import (
+    build_demo_optimizer,
+)
 
 router = APIRouter()
 
@@ -29,9 +32,12 @@ def demo():
 
 
 @router.get("/market/{ticker}")
-def market(ticker: str):
-    return build_market_payload(ticker.upper())
+def market(ticker: str, timeframe: str = "1Y"):
+    return build_market_payload(ticker.upper(), timeframe)
 
+@router.get("/analytics/{ticker}")
+def quant_analytics(ticker: str, timeframe: str = "1Y"):
+    return build_quant_analytics_payload(ticker.upper(), timeframe)
 
 @router.post("/backtest")
 def backtest(alpha_formula: str = "rank(vwap / close) - rank(volume / adv20) + ts_rank(returns, 10)"):
@@ -81,6 +87,22 @@ def equal_weight_portfolio():
     return build_equal_weight_portfolio()
 
 
+@router.get("/portfolio/optimizer")
+def portfolio_optimizer():
+    return build_demo_optimizer()
+
+
 @router.get("/portfolio/{method}")
 def optimized_portfolio(method: str):
+    valid_methods = {"equal_weight", "min_volatility", "max_sharpe", "risk_parity"}
+    if method not in valid_methods:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unknown portfolio method '{method}'. Valid options: {sorted(valid_methods)}",
+        )
     return build_optimized_portfolio(method)
+
+
+@router.get("/optimizer/portfolio")
+def portfolio_optimizer_legacy():
+    return build_demo_optimizer()

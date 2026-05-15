@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Topbar({ ticker, setTicker, page }) {
+export default function Topbar({ ticker, setTicker, timeframe, setTimeframe, page, setPage }) {
   const showTicker = ['Dashboard', 'Strategy Explorer', 'Alpha Lab', 'Market View'].includes(page);
 
   return (
@@ -23,9 +23,28 @@ export default function Topbar({ ticker, setTicker, page }) {
           </select>
         )}
 
-        {showTicker && <button>1Y Historical</button>}
+        {showTicker && (
+          <select
+            className="timeframe-select"
+            value={timeframe}
+            onChange={(event) => setTimeframe(event.target.value)}
+          >
+            <option value="1M">1M Historical</option>
+            <option value="3M">3M Historical</option>
+            <option value="6M">6M Historical</option>
+            <option value="1Y">1Y Historical</option>
+            <option value="3Y">3Y Historical</option>
+            <option value="5Y">5Y Historical</option>
+          </select>
+        )}
 
-        <button className="avatar">A</button>
+        <button
+          className="avatar"
+          onClick={() => setPage('Profile')}
+          title="Open profile"
+        >
+          A
+        </button>
       </div>
     </header>
   );

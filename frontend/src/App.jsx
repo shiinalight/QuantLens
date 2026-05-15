@@ -11,12 +11,15 @@ import Backtests from './pages/Backtests';
 import Portfolio from './pages/Portfolio';
 import NewsSentiment from './pages/NewsSentiment';
 import SettingsPage from './pages/SettingsPage';
+import Profile from './pages/Profile';
 import {
   getDemo,
   getMarket,
   getMarketOverview,
   getOptimizedPortfolio,
   getStrategy,
+  getQuantAnalytics,
+  getPortfolioOptimizer,
 } from './services/api';
 import './styles.css';
 
@@ -31,11 +34,10 @@ function Sidebar({ page, setPage }) {
   </aside>
 }
 
-function Placeholder({ page }) { return <main className="page"><h1>{page}</h1><p>This page is scaffolded for the next milestone.</p><Card title="Coming next"><p>We can add portfolio optimization, risk parity, factor exposure, CAPM/Fama-French analysis, and AI strategy explanations here.</p></Card></main> }
-
 function App(){
   const [page,setPage]=useState('Dashboard');
   const [ticker, setTicker] = useState("SPY");
+  const [timeframe, setTimeframe] = useState('1Y');
   const [data,setData]=useState({equity:[],monthly:[],drawdown:[],signal:[],strategies:[]});
   const [marketOverview, setMarketOverview] = useState({ heatmap: [], volume_spikes: [] });
   const [portfolioData, setPortfolioData] = useState(null);
@@ -49,22 +51,27 @@ function App(){
   useEffect(() => {
     Promise.all([
       getDemo(),
-      getMarket(ticker),
+      getMarket(ticker, timeframe),
+      getQuantAnalytics(ticker, timeframe),
       getStrategy(
         'ma-crossover',
-        `${ticker}?short_window=${strategyParams.shortWindow}&long_window=${strategyParams.longWindow}&transaction_cost=${strategyParams.transactionCost}`
+        `${ticker}?short_window=${strategyParams.shortWindow}&long_window=${strategyParams.longWindow}&transaction_cost=${strategyParams.transactionCost}`,
+        timeframe
       ),
-      getStrategy('mean-reversion', ticker),
-      getStrategy('momentum', ticker),
-      getStrategy('volatility-breakout', ticker),
+      getStrategy('mean-reversion', ticker, timeframe),
+      getStrategy('momentum', ticker, timeframe),
+      getStrategy('volatility-breakout', ticker, timeframe),
+      getPortfolioOptimizer(),
     ])
-      .then(([demoData, marketData, maStrategy, mrStrategy, momentumStrategy, volStrategy]) => {
+      .then(([demoData, marketData, analyticsData, maStrategy, mrStrategy, momentumStrategy, volStrategy, optimizerData]) => {
         setData({
           ...demoData,
           equity: marketData.equity,
           drawdown: marketData.drawdown,
           monthly: marketData.monthly,
           market: marketData,
+          analytics: analyticsData,
+          optimizer: optimizerData,
           liveStrategy: maStrategy,
           strategies: [
             {
@@ -151,7 +158,7 @@ function App(){
     getOptimizedPortfolio(portfolioMethod)
       .then(setPortfolioData)
       .catch((error) => console.error('Failed to fetch portfolio:', error));
-  }, [ticker, portfolioMethod, strategyParams]);
+  }, [ticker, timeframe, portfolioMethod, strategyParams]);
 
   const strategies=data.strategies||[];
 
@@ -159,16 +166,17 @@ function App(){
     <div className="app">
       <Sidebar page={page} setPage={setPage}/>
       <div className="content">
-        <Topbar ticker={ticker} setTicker={setTicker} page={page}/>
-        {page==='Dashboard'&&<Dashboard data={data}/>} 
+        <Topbar ticker={ticker} setTicker={setTicker} timeframe={timeframe} setTimeframe={setTimeframe} page={page} setPage={setPage}/>
+        {page==='Dashboard'&&<Dashboard data={data} timeframe={timeframe}/>} 
         {page==='Strategy Explorer'&&<StrategyExplorer strategies={strategies} strategyParams={strategyParams} setStrategyParams={setStrategyParams}/>} 
         {page==='Alpha Lab'&&<AlphaLab data={data}/>} 
         {page==='Market View'&&<MarketView data={marketOverview}/>} 
-        {page==='Backtests'&&<Backtests strategies={strategies}/>}
-        {page==='Portfolio'&&<Portfolio portfolio={portfolioData} method={portfolioMethod} setMethod={setPortfolioMethod}/>} 
+        {page==='Backtests'&&<Backtests strategies={strategies} timeframe={timeframe}/>}
+
+          {page==='Portfolio'&&<Portfolio portfolio={portfolioData} method={portfolioMethod} setMethod={setPortfolioMethod} optimizer={data.optimizer} timeframe={timeframe}/>} 
         {page==='News & Sentiment'&&<NewsSentiment marketOverview={marketOverview}/>}
         {page==='Settings'&&<SettingsPage ticker={ticker}/>} 
-        {!['Dashboard','Strategy Explorer','Alpha Lab','Market View','Backtests','Portfolio','News & Sentiment','Settings'].includes(page)&&<Placeholder page={page}/>} 
+        {page==='Profile'&&<Profile/>}
       </div>
     </div>
   )

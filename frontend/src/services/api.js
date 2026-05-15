@@ -1,16 +1,11 @@
-export const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
 
-async function fetchJson(path, options = {}) {
-  const response = await fetch(`${API_BASE}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    },
-    ...options,
-  });
+async function fetchJson(path) {
+  const response = await fetch(`${API_BASE_URL}${path}`);
 
   if (!response.ok) {
-    throw new Error(`API error: ${response.status}`);
+    throw new Error(`API request failed: ${response.status}`);
   }
 
   return response.json();
@@ -20,12 +15,15 @@ export function getDemo() {
   return fetchJson('/api/demo');
 }
 
-export function getMarket(ticker) {
-  return fetchJson(`/api/market/${ticker}`);
+export function getMarket(ticker, timeframe = '1Y') {
+  return fetchJson(`/api/market/${ticker}?timeframe=${encodeURIComponent(timeframe)}`);
 }
 
-export function getStrategy(strategyName, ticker) {
-  return fetchJson(`/api/strategy/${strategyName}/${ticker}`);
+export function getStrategy(strategyName, ticker, timeframe = '1Y') {
+  const separator = ticker.includes('?') ? '&' : '?';
+  return fetchJson(
+    `/api/strategy/${strategyName}/${ticker}${separator}timeframe=${encodeURIComponent(timeframe)}`
+  );
 }
 
 export function getMarketOverview() {
@@ -41,8 +39,23 @@ export function getOptimizedPortfolio(method) {
 }
 
 export async function runAlpha(payload) {
-  return fetchJson('/api/alpha/run', {
+  const response = await fetch(`${API_BASE_URL}/api/alpha/run`, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
+
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+export function getQuantAnalytics(ticker, timeframe = '1Y') {
+  return fetchJson(`/api/analytics/${ticker}?timeframe=${encodeURIComponent(timeframe)}`);
+}
+
+export function getPortfolioOptimizer() {
+  return fetchJson('/api/portfolio/optimizer');
 }

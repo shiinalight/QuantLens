@@ -4,7 +4,7 @@ import Metric from '../components/Metric';
 import Card from '../components/Card';
 import { fmt } from '../utils/format';
 
-export default function Portfolio({ portfolio, method, setMethod }) {
+export default function Portfolio({ portfolio, method, setMethod, optimizer }) {
   if (!portfolio) {
     return (
       <main className="page">
@@ -18,6 +18,33 @@ export default function Portfolio({ portfolio, method, setMethod }) {
     <main className="page">
       <h1>Portfolio</h1>
       <p>Equal-weight multi-asset portfolio analytics</p>
+
+      <Card title="Maximum Sharpe Portfolio">
+        <div className="summary">
+          <div>
+            <span>Expected Return</span>
+            <b>{optimizer ? `${optimizer.expected_return}%` : 'Loading...'}</b>
+          </div>
+          <div>
+            <span>Volatility</span>
+            <b>{optimizer ? `${optimizer.volatility}%` : 'Loading...'}</b>
+          </div>
+          <div>
+            <span>Sharpe Ratio</span>
+            <b className="good">{optimizer ? optimizer.sharpe_ratio : 'Loading...'}</b>
+          </div>
+        </div>
+        <div className="weights-grid">
+          {optimizer &&
+            Object.entries(optimizer.weights).map(([asset, weight]) => (
+              <div key={asset} className="weight-card">
+                <span>{asset}</span>
+                <b>{(weight * 100).toFixed(1)}%</b>
+              </div>
+            ))}
+        </div>
+      </Card>
+
       <select
         className="ticker-select"
         value={method}

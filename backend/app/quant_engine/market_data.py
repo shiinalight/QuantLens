@@ -3,6 +3,18 @@ import pandas as pd
 import yfinance as yf
 
 
+def _to_period(timeframe: str) -> str:
+    mapping = {
+        "1M": "1mo",
+        "3M": "3mo",
+        "6M": "6mo",
+        "1Y": "1y",
+        "3Y": "3y",
+        "5Y": "5y",
+    }
+    return mapping.get(timeframe.upper(), "1y")
+
+
 def fetch_price_history(ticker: str = "SPY", period: str = "1y"):
     data = yf.download(
         ticker,
@@ -35,8 +47,8 @@ def fetch_price_history(ticker: str = "SPY", period: str = "1y"):
     return prices
 
 
-def build_market_payload(ticker: str = "SPY"):
-    prices = fetch_price_history(ticker)
+def build_market_payload(ticker: str = "SPY", timeframe: str = "1Y"):
+    prices = fetch_price_history(ticker, period=_to_period(timeframe))
 
     df = pd.DataFrame(prices)
     df["date_dt"] = pd.to_datetime(df["date"])
@@ -83,6 +95,7 @@ def build_market_payload(ticker: str = "SPY"):
 
     return {
         "ticker": ticker,
+        "timeframe": timeframe.upper(),
         "price": round(float(df["close"].iloc[-1]), 2),
         "total_return": round(float(total_return), 2),
         "volatility": round(float(volatility), 2),
