@@ -2,7 +2,23 @@
 
 QuantLens is a quantitative finance analytics platform built with Python, FastAPI, React, and Vite for exploring market data, analyzing portfolio risk, testing trading strategies, and visualizing quantitative metrics through a modern interactive dashboard.
 
----
+## Workspace Overview
+
+![Quantitative Research Workspace](./assets/Quantitative%20Research%20Workspace.png)
+
+## Product Gallery
+
+| Dashboard                            | Strategy Explorer                                      |
+| ------------------------------------ | ------------------------------------------------------ |
+| ![Dashboard](./assets/Dashboard.png) | ![Strategy Explorer](./assets/Strategy%20Explorer.png) |
+
+| Market View                              | Portfolio                            |
+| ---------------------------------------- | ------------------------------------ |
+| ![Market View](./assets/Market_View.png) | ![Portfolio](./assets/Portfolio.png) |
+
+| Alpha Lab                           |
+| ----------------------------------- |
+| ![Alpha Lab](./assets/AlphaLab.png) |
 
 # Features
 
@@ -338,28 +354,6 @@ Recommended deployment:
 - Vite
 - JavaScript
 - CSS
-
----
-
-# Screenshots
-
-## Workspace Overview
-
-![Quantitative Research Workspace](./assets/Quantitative%20Research%20Workspace.png)
-
-## Product Gallery
-
-| Dashboard                            | Strategy Explorer                                      |
-| ------------------------------------ | ------------------------------------------------------ |
-| ![Dashboard](./assets/Dashboard.png) | ![Strategy Explorer](./assets/Strategy%20Explorer.png) |
-
-| Market View                              | Portfolio                            |
-| ---------------------------------------- | ------------------------------------ |
-| ![Market View](./assets/Market_View.png) | ![Portfolio](./assets/Portfolio.png) |
-
-| Alpha Lab                           |
-| ----------------------------------- |
-| ![Alpha Lab](./assets/AlphaLab.png) |
 
 ---
 
