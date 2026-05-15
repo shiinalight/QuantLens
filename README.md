@@ -2,14 +2,14 @@
 
 QuantLens is a quantitative finance analytics platform built with Python, FastAPI, React, and Vite for exploring market data, analyzing portfolio risk, testing trading strategies, and visualizing quantitative metrics through a modern interactive dashboard.
 
-## Quantitative Research Workspace
+## Dashboard Overview
 
-![Quantitative Research Workspace](./assets/Quantitative%20Research%20Workspace.png)
+![Dashboard](./assets/Dashboard.png)
 
 ## Product Gallery
 
-| Quantitative Research Workspace             | Strategy Explorer                                      |
-| ------------------------------------ | ------------------------------------------------------ |
+| Quantitative Research Workspace                                                      | Strategy Explorer                                      |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------ |
 | ![Quantitative Research Workspace](./assets/Quantitative%20Research%20Workspace.png) | ![Strategy Explorer](./assets/Strategy%20Explorer.png) |
 
 | Market View                              | Portfolio                            |
